@@ -12,4 +12,4 @@ set(GAME_TARGET_NAME Descentroid)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(${ENGINE_TARGET_NAME})
-# add_subdirectory(${GAME_TARGET_NAME})
+add_subdirectory(${GAME_TARGET_NAME})
