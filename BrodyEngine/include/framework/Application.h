@@ -11,14 +11,19 @@ namespace BrodyEngine
         void Run();
         ~Application();
 
+    protected:
+        void SetClearColor(Color color);
+
+        Color m_ClearColor{ BLACK };
+
     private:
         void StartInternal();
         void TickInternal(float deltaTime);
         void RenderInternal();
 
-        virtual void Start();
-        virtual void Tick(float deltaTime);
-        virtual void Render();
+        virtual void Start() = 0;
+        virtual void Tick(float deltaTime) = 0;
+        virtual void Render() = 0;
 
         bool m_Started{false};
         float m_TargetFrameRate;

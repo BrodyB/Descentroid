@@ -1,14 +1,16 @@
 #include "framework/Application.h"
 #include "raylib.h"
 #include <iostream>
-#include "Application.h"
 
 namespace BrodyEngine
 {
     Application::Application(unsigned int width, unsigned int height, std::string title)
         : m_TargetFrameRate{ 60.f },
-        m_Title{ title }
+        m_Title{ title },
+        m_Width{ width },
+        m_Height{ height }
     {
+        printf("///// CREATED APPLICATION\n");
     }
 
     void Application::Run()
@@ -33,6 +35,11 @@ namespace BrodyEngine
 
     Application::~Application() {}
 
+    void Application::SetClearColor(Color color)
+    {
+        m_ClearColor = color;
+    }
+
     void Application::StartInternal()
     {
         Start();
@@ -46,7 +53,7 @@ namespace BrodyEngine
     void Application::RenderInternal()
     {
         BeginDrawing();
-        ClearBackground(BLACK);
+        ClearBackground(m_ClearColor);
         Render();
         EndDrawing();
     }

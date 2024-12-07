@@ -13,6 +13,8 @@ namespace Descentroid
     GameApplication::GameApplication()
         : BrodyEngine::Application(1280, 720, "Descentroid")
     {
+        printf("///// CREATED GAME APPLICATION\n");
+        SetClearColor(DARKBLUE);
     }
 
     void GameApplication::Start()
