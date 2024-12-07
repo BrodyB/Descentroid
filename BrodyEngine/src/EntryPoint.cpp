@@ -4,5 +4,6 @@
 int main()
 {
     BrodyEngine::Application* app = GetApplication();
+    app->Run();
     delete app;
 }
