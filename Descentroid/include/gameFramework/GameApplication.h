@@ -1,4 +1,5 @@
 #pragma once
+#include "framework/Core.h"
 #include "framework/Application.h"
 
 namespace Descentroid

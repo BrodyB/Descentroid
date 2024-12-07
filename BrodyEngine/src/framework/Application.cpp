@@ -8,7 +8,8 @@ namespace BrodyEngine
         : m_TargetFrameRate{ 60.f },
         m_Title{ title },
         m_Width{ width },
-        m_Height{ height }
+        m_Height{ height },
+        m_Lifetime{ 0 }
     {
         printf("///// CREATED APPLICATION\n");
     }
@@ -20,6 +21,8 @@ namespace BrodyEngine
 
         while (!WindowShouldClose())
         {
+            m_Lifetime += GetFrameTime();
+            
             if (!m_Started)
             {
                 StartInternal();

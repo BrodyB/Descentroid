@@ -12,6 +12,7 @@ namespace BrodyEngine
         ~Application();
 
     protected:
+        double lifetime() const { return m_Lifetime; }
         void SetClearColor(Color color);
 
         Color m_ClearColor{ BLACK };
@@ -30,5 +31,6 @@ namespace BrodyEngine
         unsigned int m_Width{800};
         unsigned int m_Height{600};
         std::string m_Title;
+        double m_Lifetime;
     };
 }
