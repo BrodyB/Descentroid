@@ -21,8 +21,8 @@ namespace BrodyEngine
 		weak<ActorType> SpawnActor();
 
 	private:
-		void BeginPlay();
-		void Tick(float deltaTime);
+		virtual void BeginPlay();
+		virtual void Tick(float deltaTime);
 		Application* m_App;
 		bool m_BeganPlay;
 

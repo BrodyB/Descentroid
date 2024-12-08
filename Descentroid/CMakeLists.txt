@@ -2,6 +2,12 @@
 add_executable(${GAME_TARGET_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/include/gameFramework/GameApplication.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/gameFramework/GameApplication.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/TestWorld.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/TestWorld.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/PlayerShip.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/PlayerShip.cpp
 )
 
 target_include_directories(${GAME_TARGET_NAME} PUBLIC

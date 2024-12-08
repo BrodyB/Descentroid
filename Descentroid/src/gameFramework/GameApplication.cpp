@@ -7,6 +7,7 @@
 
 #include "framework/Core.h"
 #include "gameFramework/GameApplication.h"
+#include "TestWorld.h"
 #include "raylib.h"
 #include <iostream>
 #include <string>
@@ -24,7 +25,7 @@ namespace Descentroid
     {
         SetClearColor(DARKBLUE);
 
-        m_CursorVisible = false;
+        // m_CursorVisible = false;
 
         // Set up player camera
         // (I know, it should be on the player. Shut up.)
@@ -38,7 +39,6 @@ namespace Descentroid
     {
         Application::Start();
         PRINTH("GameApplication", "Started!");
-        // DisableCursor();
     }
 
     void GameApplication::Tick(float deltaTime)
