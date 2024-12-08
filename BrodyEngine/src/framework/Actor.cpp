@@ -1,11 +1,12 @@
 #include "framework/Actor.h"
-#include "Actor.h"
 
 namespace BrodyEngine
 {
     Actor::Actor(World *owningWorld)
+        : m_OwningWorld{owningWorld},
+        m_Name{ "[ACTOR]" },
+        m_BeganPlay{false}
     {
-        Actor(owningWorld, "[ACTOR]");
     }
 
     Actor::Actor(World *owningWorld, std::string name)
@@ -15,9 +16,7 @@ namespace BrodyEngine
     {
     }
 
-    Actor::~Actor()
-    {
-    }
+    Actor::~Actor() {}
 
     void Actor::BeginPlayInternal()
     {
@@ -33,13 +32,7 @@ namespace BrodyEngine
         Tick(deltaTime);
     }
 
-    void Actor::BeginPlay()
-    {
-    }
+    void Actor::BeginPlay() {}
 
-    void Actor::Tick(float deltaTime)
-    {
-    }
+    void Actor::Tick(float deltaTime) {}
 }
-
-

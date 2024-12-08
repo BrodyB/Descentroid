@@ -47,11 +47,11 @@ namespace BrodyEngine
         Tick(deltaTime);
     }
 
-    void World::Render(sf::RenderWindow& window)
+    void World::Render()
     {
         for (auto actor : m_Actors)
         {
-            actor->Render(window);
+            actor->Render();
         }
     }
 

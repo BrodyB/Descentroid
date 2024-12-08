@@ -1,8 +1,9 @@
 #pragma once
 
+#include <string>
 #include "framework/Core.h"
 #include "framework/Object.h"
-#include <string>
+#include "raylib.h"
 
 namespace BrodyEngine
 {
@@ -19,12 +20,15 @@ namespace BrodyEngine
 
         void BeginPlayInternal();
         void TickInternal(float deltaTime);
-        virtual void BeginPlay();
-        virtual void Tick(float deltaTime);
+        void RenderInternal();
+        virtual void BeginPlay() = 0;
+        virtual void Tick(float deltaTime) = 0;
+        virtual void Render() = 0;
 
     private:
         const std::string m_Name;
         World* m_OwningWorld;
+        Vector3 m_Position;
         bool m_BeganPlay{false};
     };
 }

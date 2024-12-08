@@ -10,6 +10,7 @@ namespace BrodyEngine
 {
     // A macro
     #define PRINT(M, ...) printf(M "\n", ##__VA_ARGS__)
+    #define PRINTH(H, M, ...) printf("///> " H " / " M "\n", ##__VA_ARGS__)
 
     // Give a nickname to a generic unique pointer
     template<typename T>

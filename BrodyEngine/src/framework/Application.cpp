@@ -18,11 +18,12 @@ namespace BrodyEngine
     {
         InitWindow(m_Width, m_Height, m_Title.c_str());
         SetTargetFPS(m_TargetFrameRate);
+        if (!m_CursorVisible) DisableCursor();
 
         while (!WindowShouldClose())
         {
             m_Lifetime += GetFrameTime();
-            
+
             if (!m_Started)
             {
                 StartInternal();
@@ -43,6 +44,20 @@ namespace BrodyEngine
         m_ClearColor = color;
     }
 
+    void Application::SetCursorVisible(bool visible)
+    {
+        if (visible)
+        {
+            EnableCursor();
+        }
+        else
+        {
+            DisableCursor();
+        }
+
+        m_CursorVisible = visible;
+    }
+
     void Application::StartInternal()
     {
         Start();
@@ -61,7 +76,16 @@ namespace BrodyEngine
         EndDrawing();
     }
 
-    void Application::Tick(float deltaTime) {}
+    void Application::Start() {}
+
+    void Application::Tick(float deltaTime)
+    {
+        if (m_CurrentWorld)
+        {
+            m_CurrentWorld->BeginPlayInternal();
+            m_CurrentWorld->TickInternal(deltaTime);
+        }
+    }
 
     void Application::Render() {}
 }
