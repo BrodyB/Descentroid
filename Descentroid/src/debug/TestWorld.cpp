@@ -1,7 +1,7 @@
-#include "TestWorld.h"
+#include "debug/TestWorld.h"
 #include "framework/World.h"
 #include "framework/Core.h"
-#include "Grid3DActor.h"
+#include "debug/Grid3DActor.h"
 
 namespace Descentroid
 {

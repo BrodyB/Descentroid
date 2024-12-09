@@ -7,7 +7,7 @@
 
 #include "framework/Core.h"
 #include "gameFramework/GameApplication.h"
-#include "TestWorld.h"
+#include "debug/TestWorld.h"
 #include "raylib.h"
 #include <iostream>
 #include <string>

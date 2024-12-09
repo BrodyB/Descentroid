@@ -1,5 +1,5 @@
 #include "framework/Core.h"
-#include "Grid3DActor.h"
+#include "debug/Grid3DActor.h"
 #include "raylib.h"
 
 namespace Descentroid
