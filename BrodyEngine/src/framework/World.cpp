@@ -8,7 +8,8 @@ namespace BrodyEngine
         : m_App{owningApp},
         m_BeganPlay{false},
         m_Actors{},
-        m_PendingActors{}
+        m_PendingActors{},
+        m_MainCamera{ 0 }
     {
 
     }
@@ -49,9 +50,16 @@ namespace BrodyEngine
 
     void World::Render()
     {
+        BeginMode3D(m_MainCamera);
         for (auto actor : m_Actors)
         {
-            actor->Render();
+            actor->Render3D();
+        }
+        EndMode3D();
+
+        for (auto actor : m_Actors)
+        {
+            actor->Render2D();
         }
     }
 

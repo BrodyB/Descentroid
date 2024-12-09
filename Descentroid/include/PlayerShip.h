@@ -12,7 +12,7 @@ namespace Descentroid
         PlayerShip(BrodyEngine::World* owningWorld);
         virtual void BeginPlay() override;
         virtual void Tick(float deltaTime) override;
-        virtual void Render() override;
+        virtual void Render2D() override;
 
         void SetMovementActive(bool active);
     

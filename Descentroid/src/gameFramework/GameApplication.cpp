@@ -20,19 +20,11 @@ BrodyEngine::Application* GetApplication()
 namespace Descentroid
 {
     GameApplication::GameApplication()
-        : Application(1280, 720, "Descentroid"),
-        m_PlayerCamera{ 0 }
+        : Application(1280, 720, "Descentroid")
     {
         SetClearColor(DARKBLUE);
 
         // m_CursorVisible = false;
-
-        // Set up player camera
-        // (I know, it should be on the player. Shut up.)
-        m_PlayerCamera.projection = CAMERA_PERSPECTIVE;
-        m_PlayerCamera.fovy = 60.f;
-        m_PlayerCamera.target = (Vector3){ 0.f, 0.f, 1.0f };
-        m_PlayerCamera.up = (Vector3){ 0.f, 1.f, 0.f };
 
         LoadWorld<TestWorld>();
     }

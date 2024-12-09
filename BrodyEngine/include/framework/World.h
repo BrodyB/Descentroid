@@ -2,6 +2,7 @@
 
 #include "framework/Core.h"
 #include "framework/Object.h"
+#include "raylib.h"
 
 namespace BrodyEngine
 {
@@ -20,6 +21,9 @@ namespace BrodyEngine
 
 		template<typename ActorType>
 		weak<ActorType> SpawnActor();
+
+	protected:
+		Camera3D m_MainCamera;
 
 	private:
 		virtual void BeginPlay();

@@ -16,7 +16,7 @@ namespace Descentroid
     {
     }
 
-    void PlayerShip::Render()
+    void PlayerShip::Render2D()
     {
     }
 }

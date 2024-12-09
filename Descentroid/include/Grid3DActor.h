@@ -7,10 +7,11 @@ namespace Descentroid
     class Grid3DActor : public BrodyEngine::Actor
     {
     public:
-        virtual void Render() override;
+        Grid3DActor(BrodyEngine::World* owningWorld);
+        virtual void Render3D() override;
 
     private:
-        int16_t halfSize{ 32 };
-        float spacing{ 5.f };
-    }
+        int16_t halfSize{ 8 };
+        float spacing{ 1.f };
+    };
 }

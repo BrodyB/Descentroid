@@ -8,6 +8,9 @@ add_executable(${GAME_TARGET_NAME}
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/PlayerShip.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/PlayerShip.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/Grid3DActor.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Grid3DActor.cpp
 )
 
 target_include_directories(${GAME_TARGET_NAME} PUBLIC

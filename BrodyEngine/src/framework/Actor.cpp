@@ -32,6 +32,10 @@ namespace BrodyEngine
         Tick(deltaTime);
     }
 
+    void Actor::Render2D() {}
+
+    void Actor::Render3D() {}
+
     void Actor::BeginPlay() {}
 
     void Actor::Tick(float deltaTime) {}
