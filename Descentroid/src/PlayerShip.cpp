@@ -72,9 +72,20 @@ namespace Descentroid
             m_Velocity.z += (back.z * m_Acceleration) * deltaTime;
         }
 
+        //
+        // Translate UP / DOWN
+        //
         if (IsKeyDown(KEY_SPACE))
         {
             Vector3 up = GetCameraUp(m_Camera);
+            m_Velocity.x += (up.x * m_Acceleration) * deltaTime;
+            m_Velocity.y += (up.y * m_Acceleration) * deltaTime;
+            m_Velocity.z += (up.z * m_Acceleration) * deltaTime;
+        }
+
+        if (IsKeyDown(KEY_LEFT_CONTROL))
+        {
+            Vector3 up = Vector3Scale(GetCameraUp(m_Camera), -1.f);
             m_Velocity.x += (up.x * m_Acceleration) * deltaTime;
             m_Velocity.y += (up.y * m_Acceleration) * deltaTime;
             m_Velocity.z += (up.z * m_Acceleration) * deltaTime;
