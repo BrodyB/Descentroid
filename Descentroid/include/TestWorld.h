@@ -9,6 +9,7 @@ namespace Descentroid
     class TestWorld : public BrodyEngine::World
     {
     public:
+        TestWorld(BrodyEngine::Application* owningApp);
         virtual ~TestWorld() override;
 
     private:

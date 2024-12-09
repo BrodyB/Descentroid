@@ -4,6 +4,11 @@
 
 namespace Descentroid
 {
+    TestWorld::TestWorld(BrodyEngine::Application *owningApp)
+        : World{owningApp}
+    {
+    }
+
     TestWorld::~TestWorld() {}
     
     void TestWorld::BeginPlay()

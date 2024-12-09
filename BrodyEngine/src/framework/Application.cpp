@@ -9,6 +9,7 @@ namespace BrodyEngine
         m_Title{ title },
         m_Width{ width },
         m_Height{ height },
+        m_CurrentWorld{ nullptr },
         m_Lifetime{ 0 }
     {
         printf("///// CREATED APPLICATION\n");
@@ -66,6 +67,17 @@ namespace BrodyEngine
     void Application::TickInternal(float deltaTime)
     {
         Tick(deltaTime);
+
+        if (m_CurrentWorld)
+        {
+            m_CurrentWorld->TickInternal(deltaTime);
+        }
+
+        if (m_PendingWorld && m_PendingWorld != m_CurrentWorld)
+        {
+            m_CurrentWorld = m_PendingWorld;
+            m_CurrentWorld->BeginPlayInternal();
+        }
     }
 
     void Application::RenderInternal()
@@ -78,14 +90,13 @@ namespace BrodyEngine
 
     void Application::Start() {}
 
-    void Application::Tick(float deltaTime)
+    void Application::Tick(float deltaTime) {}
+
+    void Application::Render()
     {
         if (m_CurrentWorld)
         {
-            m_CurrentWorld->BeginPlayInternal();
-            m_CurrentWorld->TickInternal(deltaTime);
+            m_CurrentWorld->Render();
         }
     }
-
-    void Application::Render() {}
 }

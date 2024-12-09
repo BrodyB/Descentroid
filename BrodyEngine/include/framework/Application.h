@@ -18,10 +18,6 @@ namespace BrodyEngine
         weak<WorldType> LoadWorld();
 
     protected:
-        virtual void Start() = 0;
-        virtual void Tick(float deltaTime) = 0;
-        virtual void Render() = 0;
-
         double lifetime() const { return m_Lifetime; }
         void SetClearColor(Color color);
         void SetCursorVisible(bool visible);
@@ -29,25 +25,30 @@ namespace BrodyEngine
         Color m_ClearColor{ BLACK };
         bool m_CursorVisible{ true };
         shared<World> m_CurrentWorld;
+        shared<World> m_PendingWorld;
 
     private:
         void StartInternal();
         void TickInternal(float deltaTime);
         void RenderInternal();
 
+        virtual void Start();
+        virtual void Tick(float deltaTime);
+        virtual void Render();
+
         bool m_Started{false};
         float m_TargetFrameRate;
         unsigned int m_Width{800};
         unsigned int m_Height{600};
-        std::string m_Title;
-        double m_Lifetime;
+        std::string m_Title{""};
+        double m_Lifetime{0};
     };
 
     template<typename WorldType>
     weak<WorldType> Application::LoadWorld()
     {
         shared<WorldType> newWorld{ new WorldType{this} };
-        m_CurrentWorld = newWorld;
-        return newWorld;
+		m_PendingWorld = newWorld;
+		return newWorld;
     }
 }

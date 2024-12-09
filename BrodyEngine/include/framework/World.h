@@ -1,6 +1,7 @@
 #pragma once
 
 #include "framework/Core.h"
+#include "framework/Object.h"
 
 namespace BrodyEngine
 {
