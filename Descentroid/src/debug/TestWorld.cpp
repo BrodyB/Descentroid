@@ -1,6 +1,7 @@
 #include "debug/TestWorld.h"
-#include "framework/World.h"
 #include "framework/Core.h"
+#include "framework/World.h"
+#include "PlayerShip.h"
 #include "debug/Grid3DActor.h"
 
 namespace Descentroid
@@ -14,6 +15,8 @@ namespace Descentroid
         m_MainCamera.up = { 0.f, 1.f, 0.f };
 
         SpawnActor<Grid3DActor>();
+        BrodyEngine::weak<PlayerShip> ship = SpawnActor<PlayerShip>();
+        ship.lock()->SetCameraReference(&m_MainCamera);
     }
 
     TestWorld::~TestWorld() {}
