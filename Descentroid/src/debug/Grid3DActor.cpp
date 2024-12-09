@@ -10,6 +10,11 @@ namespace Descentroid
         m_Position = (Vector3){ 0.f, 0.f, 5.f };
     }
 
+    void Grid3DActor::Render2D()
+    {
+        DrawText("Test Text!!!", 8, 8, 20, WHITE);
+    }
+
     void Grid3DActor::Render3D()
     {
         for (int x = -halfSize; x < halfSize; ++x)

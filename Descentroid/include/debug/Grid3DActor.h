@@ -8,6 +8,7 @@ namespace Descentroid
     {
     public:
         Grid3DActor(BrodyEngine::World* owningWorld);
+        virtual void Render2D() override;
         virtual void Render3D() override;
 
     private:
