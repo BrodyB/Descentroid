@@ -1,4 +1,5 @@
 #include "PlayerShip.h"
+#include "debug/TestWorld.h"
 #include "framework/Actor.h"
 #include "rcamera.h"
 #include "raymath.h"
@@ -8,6 +9,7 @@ namespace Descentroid
     PlayerShip::PlayerShip(BrodyEngine::World *owningWorld)
         : Actor(owningWorld)
     {
+        m_World = (TestWorld*)owningWorld;
     }
 
     void PlayerShip::BeginPlay()
@@ -18,35 +20,8 @@ namespace Descentroid
     {
         // Take input
         ProcessInput(deltaTime);
-
-        if (m_Camera)
-        {
-            // Translate the player
-            m_Camera->position.x += m_Velocity.x * deltaTime;
-            m_Camera->position.y += m_Velocity.y * deltaTime;
-            m_Camera->position.z += m_Velocity.z * deltaTime;
-
-            m_Camera->target.x += m_Velocity.x * deltaTime;
-            m_Camera->target.y += m_Velocity.y * deltaTime;
-            m_Camera->target.z += m_Velocity.z * deltaTime;
-
-            // Rotate the player
-            Vector3 vfor = GetCameraForward(m_Camera);
-            Vector3 vup = GetCameraUp(m_Camera);
-            Quaternion rot = QuaternionFromEuler(
-                    m_AngularVelocity.x * deltaTime * DEG2RAD,
-                    m_AngularVelocity.y * deltaTime * DEG2RAD,
-                    m_AngularVelocity.z * deltaTime * DEG2RAD);
-
-            vfor = Vector3RotateByQuaternion(vfor, rot);
-            vup = Vector3RotateByQuaternion(vup, rot);
-            m_Camera->target = Vector3Add(m_Camera->position, vfor);
-            m_Camera->up = vup;
-
-            // CameraPitch(m_Camera, m_AngularVelocity.x * deltaTime * DEG2RAD, false, false, false);
-            // CameraYaw(m_Camera, m_AngularVelocity.y * deltaTime * DEG2RAD, false);
-            // CameraRoll(m_Camera, m_AngularVelocity.z * deltaTime * DEG2RAD);
-        }
+        CheckForCollisions();
+        PerformMovement(deltaTime);
 
         m_Velocity = Vector3MoveTowards(m_Velocity, Vector3Zero(), m_Drag * deltaTime);
         m_AngularVelocity = Vector3MoveTowards(m_AngularVelocity, Vector3Zero(), m_AngularDrag * deltaTime);
@@ -54,10 +29,10 @@ namespace Descentroid
 
     void PlayerShip::Render2D()
     {
-        DrawText(
-            TextFormat("Angular Vel: [%f, %f, %f]", m_AngularVelocity.x, m_AngularVelocity.y, m_AngularVelocity.z),
-            8, 24, 24, RAYWHITE
-        );
+        // DrawText(
+        //     TextFormat("Angular Vel: [%f, %f, %f]", m_AngularVelocity.x, m_AngularVelocity.y, m_AngularVelocity.z),
+        //     8, 24, 24, RAYWHITE
+        // );
     }
 
     void PlayerShip::SetCameraReference(Camera3D *camera)
@@ -67,6 +42,8 @@ namespace Descentroid
 
     void PlayerShip::ProcessInput(float deltaTime)
     {
+        if (!m_MoveInputActive) return;
+
         //
         // Translate FORWARD / BACKWARD
         //
@@ -181,5 +158,50 @@ namespace Descentroid
             m_AngularVelocity.y += (roll.y * m_Torque) * deltaTime;
             m_AngularVelocity.z += (roll.z * m_Torque) * deltaTime;
         }
+    }
+
+    void PlayerShip::CheckForCollisions()
+    {
+        if (FloatEquals(Vector3Length(m_Velocity), 0.f)) return;
+
+        m_ColRay = Ray{ m_Camera->position, Vector3Normalize(m_Velocity) };
+        RayCollision hit = m_World->GetRayCollisionWorld(m_ColRay, 1.f);
+
+        if (hit.hit)
+        {
+            // m_Velocity = Vector3Scale(Vector3Reflect(m_Velocity, hit.normal), m_ImpactDecay);
+            PRINTH("PlayerShip", "Hit!");
+        }
+        else
+        {
+            PRINTH("PlayerShip", "No Hit");
+        }
+    }
+
+    void PlayerShip::PerformMovement(float deltaTime)
+    {
+        if (!m_Camera) return;
+
+        // Translate the player
+        m_Camera->position.x += m_Velocity.x * deltaTime;
+        m_Camera->position.y += m_Velocity.y * deltaTime;
+        m_Camera->position.z += m_Velocity.z * deltaTime;
+
+        m_Camera->target.x += m_Velocity.x * deltaTime;
+        m_Camera->target.y += m_Velocity.y * deltaTime;
+        m_Camera->target.z += m_Velocity.z * deltaTime;
+
+        // Rotate the player by rotating the forward and up vectors
+        Vector3 vfor = GetCameraForward(m_Camera);
+        Vector3 vup = GetCameraUp(m_Camera);
+        Quaternion rot = QuaternionFromEuler(
+                m_AngularVelocity.x * deltaTime * DEG2RAD,
+                m_AngularVelocity.y * deltaTime * DEG2RAD,
+                m_AngularVelocity.z * deltaTime * DEG2RAD);
+
+        vfor = Vector3RotateByQuaternion(vfor, rot);
+        vup = Vector3RotateByQuaternion(vup, rot);
+        m_Camera->target = Vector3Add(m_Camera->position, vfor);
+        m_Camera->up = vup;
     }
 }

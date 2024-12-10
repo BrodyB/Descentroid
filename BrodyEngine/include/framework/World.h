@@ -19,6 +19,8 @@ namespace BrodyEngine
 		void TickInternal(float deltaTime);
 		void RenderInternal();
 
+		virtual RayCollision GetRayCollisionWorld(Ray ray, float distance);
+
 		template<typename ActorType>
 		weak<ActorType> SpawnActor();
 

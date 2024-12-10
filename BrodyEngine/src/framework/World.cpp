@@ -72,4 +72,6 @@ namespace BrodyEngine
     void World::Render2D() {}
 
     void World::Render3D() {}
+
+    RayCollision World::GetRayCollisionWorld(Ray ray, float distance) { return RayCollision(); };
 }
