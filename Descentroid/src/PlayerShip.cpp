@@ -21,6 +21,7 @@ namespace Descentroid
 
         if (m_Camera)
         {
+            // Translate the player
             m_Camera->position.x += m_Velocity.x * deltaTime;
             m_Camera->position.y += m_Velocity.y * deltaTime;
             m_Camera->position.z += m_Velocity.z * deltaTime;
@@ -29,9 +30,22 @@ namespace Descentroid
             m_Camera->target.y += m_Velocity.y * deltaTime;
             m_Camera->target.z += m_Velocity.z * deltaTime;
 
-            CameraPitch(m_Camera, m_AngularVelocity.x * deltaTime * DEG2RAD, false, false, false);
-            CameraYaw(m_Camera, m_AngularVelocity.y * deltaTime * DEG2RAD, false);
-            CameraRoll(m_Camera, m_AngularVelocity.z * deltaTime * DEG2RAD);
+            // Rotate the player
+            Vector3 vfor = GetCameraForward(m_Camera);
+            Vector3 vup = GetCameraUp(m_Camera);
+            Quaternion rot = QuaternionFromEuler(
+                    m_AngularVelocity.x * deltaTime * DEG2RAD,
+                    m_AngularVelocity.y * deltaTime * DEG2RAD,
+                    m_AngularVelocity.z * deltaTime * DEG2RAD);
+
+            vfor = Vector3RotateByQuaternion(vfor, rot);
+            vup = Vector3RotateByQuaternion(vup, rot);
+            m_Camera->target = Vector3Add(m_Camera->position, vfor);
+            m_Camera->up = vup;
+
+            // CameraPitch(m_Camera, m_AngularVelocity.x * deltaTime * DEG2RAD, false, false, false);
+            // CameraYaw(m_Camera, m_AngularVelocity.y * deltaTime * DEG2RAD, false);
+            // CameraRoll(m_Camera, m_AngularVelocity.z * deltaTime * DEG2RAD);
         }
 
         m_Velocity = Vector3MoveTowards(m_Velocity, Vector3Zero(), m_Drag * deltaTime);
@@ -116,12 +130,18 @@ namespace Descentroid
         //
         if (IsKeyDown(KEY_KP_8))
         {
-            m_AngularVelocity.x -= m_Torque * deltaTime;
+            Vector3 pitch = GetCameraRight(m_Camera);
+            m_AngularVelocity.x -= (pitch.x * m_Torque) * deltaTime;
+            m_AngularVelocity.y -= (pitch.y * m_Torque) * deltaTime;
+            m_AngularVelocity.z -= (pitch.z * m_Torque) * deltaTime;
         }
 
         if (IsKeyDown(KEY_KP_5))
         {
-            m_AngularVelocity.x += m_Torque * deltaTime;
+            Vector3 pitch = GetCameraRight(m_Camera);
+            m_AngularVelocity.x += (pitch.x * m_Torque) * deltaTime;
+            m_AngularVelocity.y += (pitch.y * m_Torque) * deltaTime;
+            m_AngularVelocity.z += (pitch.z * m_Torque) * deltaTime;
         }
 
         //
@@ -129,12 +149,18 @@ namespace Descentroid
         //
         if (IsKeyDown(KEY_KP_4))
         {
-            m_AngularVelocity.y += m_Torque * deltaTime;
+            Vector3 yaw = GetCameraUp(m_Camera);
+            m_AngularVelocity.x += (yaw.x * m_Torque) * deltaTime;
+            m_AngularVelocity.y += (yaw.y * m_Torque) * deltaTime;
+            m_AngularVelocity.z += (yaw.z * m_Torque) * deltaTime;
         }
 
         if (IsKeyDown(KEY_KP_6))
         {
-            m_AngularVelocity.y -= m_Torque * deltaTime;
+            Vector3 yaw = GetCameraUp(m_Camera);
+            m_AngularVelocity.x -= (yaw.x * m_Torque) * deltaTime;
+            m_AngularVelocity.y -= (yaw.y * m_Torque) * deltaTime;
+            m_AngularVelocity.z -= (yaw.z * m_Torque) * deltaTime;
         }
 
         //
@@ -142,12 +168,18 @@ namespace Descentroid
         //
         if (IsKeyDown(KEY_Q))
         {
-            m_AngularVelocity.z -= m_Torque * deltaTime;
+            Vector3 roll = GetCameraForward(m_Camera);
+            m_AngularVelocity.x -= (roll.x * m_Torque) * deltaTime;
+            m_AngularVelocity.y -= (roll.y * m_Torque) * deltaTime;
+            m_AngularVelocity.z -= (roll.z * m_Torque) * deltaTime;
         }
 
         if (IsKeyDown(KEY_E))
         {
-            m_AngularVelocity.z += m_Torque * deltaTime;
+            Vector3 roll = GetCameraForward(m_Camera);
+            m_AngularVelocity.x += (roll.x * m_Torque) * deltaTime;
+            m_AngularVelocity.y += (roll.y * m_Torque) * deltaTime;
+            m_AngularVelocity.z += (roll.z * m_Torque) * deltaTime;
         }
     }
 }
