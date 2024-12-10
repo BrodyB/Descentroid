@@ -48,28 +48,28 @@ namespace BrodyEngine
         Tick(deltaTime);
     }
 
-    void World::Render()
+    void World::RenderInternal()
     {
         BeginMode3D(m_MainCamera);
+        Render3D();
         for (auto actor : m_Actors)
         {
             actor->Render3D();
         }
         EndMode3D();
 
+        Render2D();
         for (auto actor : m_Actors)
         {
             actor->Render2D();
         }
     }
 
-    void World::BeginPlay()
-    {
-        // LOG("----> BeginPlay Called");
-    }
+    void World::BeginPlay() {}
 
-    void World::Tick(float deltaTime)
-    {
-        // LOG("----> Tick Called // %f", 1.f / deltaTime);
-    }
+    void World::Tick(float deltaTime) {}
+
+    void World::Render2D() {}
+
+    void World::Render3D() {}
 }

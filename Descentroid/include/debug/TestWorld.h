@@ -15,5 +15,8 @@ namespace Descentroid
     private:
         virtual void BeginPlay() override;
 		virtual void Tick(float deltaTime) override;
+        virtual void Render3D() override;
+
+        Model environment;
     };
 }

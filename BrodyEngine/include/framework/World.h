@@ -17,7 +17,7 @@ namespace BrodyEngine
 
 		void BeginPlayInternal();
 		void TickInternal(float deltaTime);
-		void Render();
+		void RenderInternal();
 
 		template<typename ActorType>
 		weak<ActorType> SpawnActor();
@@ -28,6 +28,8 @@ namespace BrodyEngine
 	private:
 		virtual void BeginPlay();
 		virtual void Tick(float deltaTime);
+		virtual void Render2D();
+		virtual void Render3D();
 		Application* m_App;
 		bool m_BeganPlay;
 

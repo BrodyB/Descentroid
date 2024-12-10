@@ -96,7 +96,7 @@ namespace BrodyEngine
     {
         if (m_CurrentWorld)
         {
-            m_CurrentWorld->Render();
+            m_CurrentWorld->RenderInternal();
         }
     }
 }

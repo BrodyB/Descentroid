@@ -18,6 +18,7 @@ namespace Descentroid
         void SetMovementActive(bool active);
     
     private:
+        Matrix m_Transform;
         Vector3 m_Velocity{ 0, 0, 0 };
         Vector3 m_AngularVelocity{ 0, 0, 0};
         float m_Acceleration{ 0.4f };
