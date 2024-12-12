@@ -1,14 +1,15 @@
 #pragma once
 #include <stddef.h>
+#include <math.h>
 
 namespace BrodyEngine
 {
     class Vector3
     {
     public:
-        float x;
-        float y;
-        float z;
+        float x{0.f};
+        float y{0.f};
+        float z{0.f};
 
         Vector3();
         Vector3(float x, float y, float z);
@@ -19,8 +20,8 @@ namespace BrodyEngine
         Vector3 operator*(float scalar) const;
         Vector3 operator/(float scalar) const;
 
-        Vector3& Vector3::operator+=(const Vector3& vector);
-        Vector3& Vector3::operator-=(const Vector3& vector);
+        Vector3& operator+=(const Vector3& vector);
+        Vector3& operator-=(const Vector3& vector);
         Vector3 operator-() const;
         Vector3& operator*=(float scalar);
         Vector3& operator/=(float scalar);
@@ -28,11 +29,13 @@ namespace BrodyEngine
         bool operator==(const Vector3 vector) const;
         bool operator!=(const Vector3 vector) const;
 
-        float& operator[](size_t i);
-        float operator[](size_t i) const;
-
-        Vector3 Length();
+        float Length();
+        float Distance(const Vector3& other);
         Vector3 Normalize();
+        Vector3 CrossProduct(const Vector3& vector);
+        float DotProduct(const Vector3& other);
+        Vector3& MoveTowards(const Vector3& vector, float maxDistance);
+        Vector3& Reflect(const Vector3& normal);
 
         static const Vector3 ZERO;
         static const Vector3 ONE;
@@ -44,6 +47,8 @@ namespace BrodyEngine
         static const Vector3 BACK;
 
         static Vector3 Normalized(Vector3 vector);
+        static Vector3 Lerp(Vector3 from, Vector3 to, float target);
+        static float Angle(const Vector3& v1, const Vector3& v2);
     };
 
     #pragma region Inline Operations
@@ -77,6 +82,7 @@ namespace BrodyEngine
         x += vector.x;
         y += vector.y;
         z += vector.z;
+        return *this;
     }
 
     inline Vector3& Vector3::operator-=(const Vector3& vector)
@@ -84,6 +90,7 @@ namespace BrodyEngine
         x -= vector.x;
         y -= vector.y;
         z -= vector.z;
+        return *this;
     }
 
     inline Vector3& Vector3::operator*=(float scalar)
@@ -91,6 +98,7 @@ namespace BrodyEngine
         x *= scalar;
         y *= scalar;
         z *= scalar;
+        return *this;
     }
 
     inline Vector3& Vector3::operator/=(float scalar)
@@ -98,6 +106,7 @@ namespace BrodyEngine
         x /= scalar;
         y /= scalar;
         z /= scalar;
+        return *this;
     }
 
 
@@ -110,28 +119,58 @@ namespace BrodyEngine
     {
         return x != vector.x || y != vector.y || z != vector.z;
     }
-
-
-    float& Vector3::operator[](size_t i)
-    {
-        switch (i)
-        {
-            case 0: return x;
-            case 1: return y;
-            case 2: return z;
-            default: throw "Out of bounds!";
-        }
-    }
-
-    float Vector3::operator[](size_t i) const
-    {
-        return (*const_cast<Vector3*>(this))[i];
-    }
     #pragma endregion
 
-    #pragma region Modification Methods
+    #pragma region Properties and Modifications
+    inline float Vector3::Length()
+    {
+        return sqrtf(x*x + y*y + z*z);
+    }
+
+    inline float Vector3::Distance(const Vector3& other)
+    {
+        float nx = other.x - x;
+        float ny = other.y - y;
+        float nz = other.z - z;
+
+        return sqrt(nx*nx + ny*y + nz*nz);
+    }
+
     inline Vector3 Vector3::Normalize()
     {
+        if (Length() != 0.f)
+        {
+            float inverse = 1.0f/Length();
+            x *= inverse;
+            y *= inverse;
+            z *= inverse;
+        }
+
+        return *this;
+    }
+
+    inline Vector3 Vector3::CrossProduct(const Vector3& vector)
+    {
+        return Vector3(
+            y * vector.z - z * vector.y,
+            z * vector.x - x * vector.z,
+            x * vector.y - y * vector.x
+        );
+    }
+
+    inline float Vector3::DotProduct(const Vector3 &other)
+    {
+        return x * other.x + y * other.y + z * other.z;
+    }
+
+    inline Vector3& Vector3::Reflect(const Vector3 &normal)
+    {
+        float dot = DotProduct(normal);
+
+        x -= (2.f * normal.x) * dot;
+        y -= (2.f * normal.y) * dot;
+        z -= (2.f * normal.z) * dot;
+
         return *this;
     }
     #pragma endregion
