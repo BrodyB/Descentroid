@@ -17,6 +17,10 @@ add_library(${ENGINE_TARGET_NAME} STATIC
 
 	${CMAKE_CURRENT_SOURCE_DIR}/include/Vector3.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Vector3.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Ray.h
+	
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Color.h
 )
 
 target_include_directories(${ENGINE_TARGET_NAME} PUBLIC

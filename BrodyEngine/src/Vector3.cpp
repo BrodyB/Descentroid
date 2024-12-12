@@ -10,8 +10,13 @@ namespace BrodyEngine
     {
     }
 
-    Vector3::Vector3(Vector3& original)
+    Vector3::Vector3(const Vector3& original)
         : x{original.x}, y{original.y}, z{original.z}
+    {
+    }
+
+    Vector3::Vector3(const float vector[])
+        : x{vector[0]}, y{vector[1]}, z{vector[2]}
     {
     }
     #pragma endregion
