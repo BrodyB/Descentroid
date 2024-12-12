@@ -20,7 +20,7 @@ namespace Descentroid
         virtual void Render3D() override;
 
         Texture2D wall;
-        // Model environment;
+        Model environment;
         Model testCube;
         Matrix testTransform;
         Material testMaterial;
