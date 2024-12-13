@@ -3,6 +3,13 @@ add_library(${ENGINE_TARGET_NAME} STATIC
 	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/Application.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Application.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Vector3.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Vector3.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Ray.h
+	
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Color.h
+
 	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/World.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/World.cpp
 
@@ -14,13 +21,6 @@ add_library(${ENGINE_TARGET_NAME} STATIC
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/EntryPoint.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/EntryPoint.cpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/include/Vector3.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/Vector3.cpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/include/Ray.h
-	
-	${CMAKE_CURRENT_SOURCE_DIR}/include/Color.h
 )
 
 target_include_directories(${ENGINE_TARGET_NAME} PUBLIC
@@ -29,6 +29,7 @@ target_include_directories(${ENGINE_TARGET_NAME} PUBLIC
 
 set(RAYLIB_VERSION 5.5)
 set(RAYLIB_NAME raylib)
+set(RAYLIB_CPP_NAME raylib_cpp)
 
 include(FetchContent)
 
@@ -42,7 +43,22 @@ set(FETCHCONTENT_QUIET NO)
 FetchContent_MakeAvailable(${RAYLIB_NAME})
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
 
-target_link_libraries(${ENGINE_TARGET_NAME} PUBLIC ${RAYLIB_NAME})
+# raylib-cpp
+find_package(${RAYLIB_CPP_NAME} QUIET)
+if (NOT ${RAYLIB_CPP_NAME}_FOUND)
+    if (NOT DEFINED RAYLIB_CPP_VERSION)
+        set(RAYLIB_CPP_VERSION next)
+    endif()
+    # include(FetchContent)
+    FetchContent_Declare(
+        ${RAYLIB_CPP_NAME}
+        GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
+        GIT_TAG ${RAYLIB_CPP_VERSION}
+    )
+    FetchContent_MakeAvailable(${RAYLIB_CPP_NAME})
+endif()
+
+target_link_libraries(${ENGINE_TARGET_NAME} PUBLIC ${RAYLIB_NAME} ${RAYLIB_CPP_NAME})
 
 function(CopyLibToTarget LIB_NAME TARGET_NAME)
 	add_custom_command(TARGET ${TARGET_NAME}
@@ -55,3 +71,4 @@ function(CopyLibToTarget LIB_NAME TARGET_NAME)
 endfunction()
 
 CopyLibToTarget(${RAYLIB_NAME} ${ENGINE_TARGET_NAME})
+# CopyLibToTarget(${RAYLIB_CPP_NAME} ${ENGINE_TARGET_NAME})

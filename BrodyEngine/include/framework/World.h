@@ -2,7 +2,8 @@
 
 #include "framework/Core.h"
 #include "framework/Object.h"
-#include "raylib.h"
+#include "Ray.h"
+#include "raylib-cpp.hpp"
 
 namespace BrodyEngine
 {

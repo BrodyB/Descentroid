@@ -1,6 +1,8 @@
 #include "framework/World.h"
 #include "framework/Core.h"
 #include "framework/Actor.h"
+#include "Ray.h"
+#include "raylib-cpp.hpp"
 
 namespace BrodyEngine
 {
@@ -65,6 +67,8 @@ namespace BrodyEngine
         }
     }
 
+    RayCollision World::GetRayCollisionWorld(BrodyEngine::Ray ray, float distance) { return RayCollision(); }
+
     void World::BeginPlay() {}
 
     void World::Tick(float deltaTime) {}
@@ -73,5 +77,5 @@ namespace BrodyEngine
 
     void World::Render3D() {}
 
-    RayCollision World::GetRayCollisionWorld(Ray ray, float distance) { return RayCollision(); };
+    
 }

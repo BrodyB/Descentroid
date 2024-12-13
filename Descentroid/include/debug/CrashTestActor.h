@@ -2,10 +2,17 @@
 
 #include "framework/Core.h"
 #include "framework/Actor.h"
+#include "Vector3.h"
+#include "Ray.h"
+
+#include "raylib.h"
 
 namespace Descentroid
 {
     class TestWorld;
+
+    using BrodyEngine::Vector3;
+    using BrodyEngine::Ray;
 
     class CrashTestActor : public BrodyEngine::Actor
     {
@@ -17,15 +24,15 @@ namespace Descentroid
 
     private:
         TestWorld* m_World{ nullptr };
-        Vector3 m_Velocity{ 0, 0, 0 };
+        Vector3 m_Velocity;
         float m_Acceleration{ 0.6f };
         float m_Drag{ 0.1f };
         Ray m_ColRay{};
         Vector3 m_Rays[128];
 
-        const Vector3 Up { 0.f, 1.f, 0.f };
-        const Vector3 Forward { 0.f, 0.f, 1.f };
-        const Vector3 Right { 1.f, 0.f, 0.f };
+        const Vector3 Up { Vector3::UP };
+        const Vector3 Forward { Vector3::FORWARD };
+        const Vector3 Right { Vector3::RIGHT };
 
         void ProcessInput(float deltaTime);
         void CheckForCollisions();

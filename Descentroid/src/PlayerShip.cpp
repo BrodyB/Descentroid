@@ -23,8 +23,8 @@ namespace Descentroid
         CheckForCollisions();
         PerformMovement(deltaTime);
 
-        m_Velocity = Vector3MoveTowards(m_Velocity, Vector3Zero(), m_Drag * deltaTime);
-        m_AngularVelocity = Vector3MoveTowards(m_AngularVelocity, Vector3Zero(), m_AngularDrag * deltaTime);
+        m_Velocity.MoveTowards(BrodyEngine::Vector3::ZERO, m_Drag * deltaTime);
+        m_AngularVelocity.MoveTowards(BrodyEngine::Vector3::ZERO, m_AngularDrag * deltaTime);
     }
 
     void PlayerShip::Render2D()

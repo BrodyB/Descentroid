@@ -9,8 +9,8 @@ add_executable(${GAME_TARGET_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/include/debug/CrashTestActor.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/debug/CrashTestActor.cpp
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/PlayerShip.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/PlayerShip.cpp
+    # ${CMAKE_CURRENT_SOURCE_DIR}/include/PlayerShip.h
+    # ${CMAKE_CURRENT_SOURCE_DIR}/src/PlayerShip.cpp
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/debug/Grid3DActor.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/debug/Grid3DActor.cpp

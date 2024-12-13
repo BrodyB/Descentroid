@@ -56,7 +56,18 @@ namespace BrodyEngine
         return *this;
     }
 
-    Vector3 Vector3::Lerp(Vector3 from, Vector3 to, float target)
+    raylib::Vector3 Vector3::ToRayVector3(const Vector3 &vector)
+    {
+        raylib::Vector3 output(vector.x, vector.y, vector.z);
+        return output;
+    }
+
+    Vector3 Vector3::Normalized(const Vector3 &vector)
+    {
+        return Vector3(vector).Normalize();
+    }
+
+    Vector3 Vector3::Lerp(const Vector3& from, const Vector3& to, float target)
     {
         Vector3 output;
 

@@ -3,8 +3,9 @@
 #include "framework/World.h"
 #include "debug/CrashTestActor.h"
 #include "debug/Grid3DActor.h"
-#include "raymath.h"
 #include "config.h"
+
+#include "raylib-cpp.hpp"
 
 namespace Descentroid
 {
@@ -58,17 +59,30 @@ namespace Descentroid
             DrawSphere(lastHit.point, 0.1f, RED);
             DrawLine3D(lastHit.point, Vector3Add(lastHit.point, lastHit.normal), ORANGE);
         }
+        else
+        {
+            DrawLine3D(lastHit.point, Vector3Add(lastHit.point, lastHit.normal), RED);
+        }
     }
 
-    RayCollision TestWorld::GetRayCollisionWorld(Ray ray, float distance)
+    RayCollision TestWorld::GetRayCollisionWorld(BrodyEngine::Ray ray, float distance)
     {
-        if (distance <= 0.f)
+        if (distance <= 0.f || ray.direction == Vector3::ZERO)
             return RayCollision();
 
-        lastHit = GetRayCollisionMesh(ray, environment.meshes[0], MatrixIdentity());
-        if (lastHit.distance > distance)
+        raylib::Ray newRay = Ray::ToRayRay(ray);
+        lastHit = GetRayCollisionMesh(newRay, environment.meshes[0], raylib::Matrix::Identity());
+
+        if (lastHit.hit)
         {
-            lastHit.hit = false;
+            if (lastHit.distance > distance)
+            {
+                lastHit.hit = false;
+            }
+            else
+            {
+                PRINT("Hit!");
+            }
         }
         return lastHit;
     }

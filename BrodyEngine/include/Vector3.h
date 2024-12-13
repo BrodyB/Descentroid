@@ -1,6 +1,7 @@
 #pragma once
 #include <stddef.h>
 #include <math.h>
+#include "raylib-cpp.hpp"
 
 namespace BrodyEngine
 {
@@ -47,8 +48,9 @@ namespace BrodyEngine
         static const Vector3 FORWARD;
         static const Vector3 BACK;
 
-        static Vector3 Normalized(Vector3 vector);
-        static Vector3 Lerp(Vector3 from, Vector3 to, float target);
+        static raylib::Vector3 ToRayVector3(const Vector3& vector);
+        static Vector3 Normalized(const Vector3& vector);
+        static Vector3 Lerp(const Vector3& from, const Vector3& to, float target);
         static float Angle(const Vector3& v1, const Vector3& v2);
     };
 

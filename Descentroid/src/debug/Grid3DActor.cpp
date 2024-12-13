@@ -7,7 +7,7 @@ namespace Descentroid
     Grid3DActor::Grid3DActor(BrodyEngine::World* owningWorld)
         : Actor{owningWorld}
     {
-        m_Position = (Vector3){ 0.f, 0.f, 5.f };
+        m_Position = BrodyEngine::Vector3(0.f, 0.f, 5.f);
     }
 
     void Grid3DActor::Render2D()

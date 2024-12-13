@@ -2,7 +2,7 @@
 #include "framework/Core.h"
 #include "framework/World.h"
 #include <string>
-#include "raylib.h"
+#include "raylib.h" // Just for Color
 
 namespace BrodyEngine
 {

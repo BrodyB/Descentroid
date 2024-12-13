@@ -1,8 +1,7 @@
 #include "debug/CrashTestActor.h"
 #include "debug/TestWorld.h"
 #include "framework/Actor.h"
-#include "raylib.h"
-#include "raymath.h"
+#include "Vector3.h"
 
 namespace Descentroid
 {
@@ -25,11 +24,11 @@ namespace Descentroid
 
     void CrashTestActor::Render3D()
     {
-        DrawCube(m_Position, 1.f, 1.f, 1.f, GREEN);
+        DrawCubeWires({m_Position.x, m_Position.y, m_Position.z}, 1.f, 1.f, 1.f, GREEN);
 
         for (int i = 0; i < 128; i += 2)
         {
-            DrawLine3D(m_Rays[i], m_Rays[i + 1], GRAY);
+            DrawLine3D(Vector3::ToRayVector3(m_Rays[i]), Vector3::ToRayVector3(m_Rays[i + 1]), RED);
         }
     }
 
@@ -90,16 +89,16 @@ namespace Descentroid
 
     void CrashTestActor::CheckForCollisions()
     {
-        if (FloatEquals(Vector3Length(m_Velocity), 0.f)) return;
+        if (m_Velocity.Length() <= 0.001f) return;
 
         RayCollision hit = GetCollisionSide();
 
         if (hit.hit)
         {
-            Vector3 hitDir = Vector3Subtract(hit.point, m_Velocity);
-            if (Vector3DotProduct(m_Velocity, hitDir) > 0.f)
+            Vector3 hitDir = Vector3(hit.point.x, hit.point.y, hit.point.z) - m_Velocity;
+            if (m_Velocity.DotProduct(hitDir) > 0.f)
             {
-                m_Velocity = Vector3Scale(Vector3Reflect(m_Velocity, hit.normal), 0.6f);
+                m_Velocity = m_Velocity.Reflect(Vector3(hit.normal.x, hit.normal.y, hit.normal.z)) * 0.6f;
             }
         }
     }
@@ -107,68 +106,15 @@ namespace Descentroid
     void CrashTestActor::PerformMovement(float deltaTime)
     {
         // Translate the player
-        m_Position.x += m_Velocity.x * deltaTime;
-        m_Position.y += m_Velocity.y * deltaTime;
-        m_Position.z += m_Velocity.z * deltaTime;
+        m_Position += m_Velocity * deltaTime;
     }
     
     RayCollision CrashTestActor::GetCollisionSide()
     {
-        RayCollision average;
-        int hits = 0;
-
-        float width = 1.f;
-        float height = 1.f;
-        int iterX = 0;
-        int iterY = 0;
-
-        int axisSlices = 8;
-
-        m_ColRay.position = m_Position;
-        m_ColRay.direction = Vector3Normalize(m_Velocity);
+        m_ColRay.origin = m_Position;
+        m_ColRay.direction = Vector3::Normalized(m_Velocity);
+        m_Rays[0] = m_ColRay.origin;
+        m_Rays[1] = m_Position + m_ColRay.direction;
         return m_World->GetRayCollisionWorld(m_ColRay, 1.25f);
-
-
-        Vector3 right = Vector3Normalize(Vector3CrossProduct(m_ColRay.direction, Up));
-
-        for (float x = -width/2.f; x <= width/2.f; x += width/axisSlices)
-        {
-            for (float y = -height/2.f; y <= height/2.f; y += height/axisSlices)
-            {
-                m_ColRay.position = Vector3Add(m_Position, Vector3Add(Vector3Scale(right, x), Vector3Scale(Up, y)));
-                RayCollision col = m_World->GetRayCollisionWorld(m_ColRay, 1.25f);
-
-                m_Rays[(iterY)] = m_ColRay.position;
-                m_Rays[(iterY)+1] = Vector3Add(m_ColRay.position, Vector3Scale(m_ColRay.direction, 1.25f));
-
-                if (col.hit)
-                {
-                    m_Rays[(iterX * iterY)+1] = col.point;
-                    hits += 1;
-                    average.hit = average.hit || col.hit;
-                    average.distance += col.distance;
-                    average.normal = Vector3Add(average.normal, col.normal);
-                    average.point = Vector3Add(average.point, col.point);
-                }
-
-                iterY += 2;
-            }
-
-        }
-
-        if (average.hit)
-        {
-            average.distance /= hits;
-
-            average.normal.x /= hits;
-            average.normal.y /= hits;
-            average.normal.z /= hits;
-
-            average.point.x /= hits;
-            average.point.y /= hits;
-            average.point.z /= hits;
-        }
-
-        return average;
     }
 }

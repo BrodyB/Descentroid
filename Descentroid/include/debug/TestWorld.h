@@ -2,6 +2,7 @@
 
 #include "framework/World.h"
 #include "framework/Application.h"
+#include "raylib-cpp.hpp"
 
 namespace Descentroid
 {
@@ -12,7 +13,7 @@ namespace Descentroid
         TestWorld(BrodyEngine::Application* owningApp);
         virtual ~TestWorld() override;
 
-        virtual RayCollision GetRayCollisionWorld(Ray ray, float distance);
+        virtual RayCollision GetRayCollisionWorld(BrodyEngine::Ray ray, float distance) override;
 
     private:
         virtual void BeginPlay() override;
@@ -24,6 +25,6 @@ namespace Descentroid
         Model testCube;
         Matrix testTransform;
         Material testMaterial;
-        RayCollision lastHit{};
+        RayCollision lastHit;
     };
 }

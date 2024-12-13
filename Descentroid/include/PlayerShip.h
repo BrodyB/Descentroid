@@ -2,6 +2,8 @@
 
 #include "framework/Core.h"
 #include "framework/Actor.h"
+#include "Vector3.h"
+#include "raylib.h"
 
 namespace Descentroid
 {
@@ -22,8 +24,8 @@ namespace Descentroid
     private:
         TestWorld* m_World{ nullptr };
         Camera3D* m_Camera{ nullptr };
-        Vector3 m_Velocity{ 0, 0, 0 };
-        Vector3 m_AngularVelocity{ 0, 0, 0};
+        BrodyEngine::Vector3 m_Velocity{ 0, 0, 0 };
+        BrodyEngine::Vector3 m_AngularVelocity{ 0, 0, 0};
         float m_Acceleration{ 0.4f };
         float m_Torque{ 25.0f };
         float m_Drag{ 0.05f };
