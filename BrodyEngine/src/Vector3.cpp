@@ -15,8 +15,8 @@ namespace BrodyEngine
     {
     }
 
-    Vector3::Vector3(const float vector[])
-        : x{vector[0]}, y{vector[1]}, z{vector[2]}
+    Vector3::Vector3(const raylib::Vector3& vector)
+        : x{vector.x}, y{vector.y}, z{vector.z}
     {
     }
     #pragma endregion

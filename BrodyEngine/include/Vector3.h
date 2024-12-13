@@ -15,7 +15,7 @@ namespace BrodyEngine
         Vector3();
         Vector3(float x, float y, float z);
         Vector3(const Vector3& original);
-        Vector3(const float vector[]);
+        Vector3(const raylib::Vector3& vector);
 
         Vector3 operator+(const Vector3 vector) const;
         Vector3 operator-(const Vector3 vector) const;

@@ -24,7 +24,7 @@ namespace Descentroid
 
     void CrashTestActor::Render3D()
     {
-        DrawCubeWires({m_Position.x, m_Position.y, m_Position.z}, 1.f, 1.f, 1.f, GREEN);
+        DrawCubeWires(Vector3::ToRayVector3(m_Position), 1.f, 1.f, 1.f, GREEN);
 
         for (int i = 0; i < 128; i += 2)
         {
@@ -98,7 +98,7 @@ namespace Descentroid
             Vector3 hitDir = Vector3(hit.point.x, hit.point.y, hit.point.z) - m_Velocity;
             if (m_Velocity.DotProduct(hitDir) > 0.f)
             {
-                m_Velocity = m_Velocity.Reflect(Vector3(hit.normal.x, hit.normal.y, hit.normal.z)) * 0.6f;
+                m_Velocity = m_Velocity.Reflect(Vector3(hit.normal)) * 0.6f;
             }
         }
     }
